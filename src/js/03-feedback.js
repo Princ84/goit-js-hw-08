@@ -23,18 +23,19 @@ form.addEventListener('submit', event => {
     elements: { email, message },
   } = event.currentTarget;
   console.log({ email: email.value, message: message.value });
-
-  event.currentTarget.reset();
-  localStorage.clear();
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.log('Failed to remove item from localStorage:', error);
+  }
 });
 
 const savedText = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
 const dataForm = () => {
   if (savedText !== null) {
-    input.value = parseStorage.email;
-    textarea.value = parseStorage.message;
+      input.value = savedText.email;
+    textarea.value = savedText.message;
   }
 };
 dataForm();
-
